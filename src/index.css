@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Expense Tracker Design System - Professional Finance Theme */
+
+@layer base {
+  :root {
+    /* Core backgrounds and text */
+    --background: 220 20% 97%;
+    --foreground: 220 15% 15%;
+
+    /* Cards and surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 15%;
+    --card-hover: 220 25% 98%;
+
+    /* Interactive elements */
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 15%;
+
+    /* Primary brand colors - Professional blue */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 217 91% 55%;
+
+    /* Secondary colors - Success green */
+    --secondary: 142 71% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-hover: 142 71% 40%;
+
+    /* Muted elements */
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 10% 45%;
+
+    /* Accent colors - Warning orange */
+    --accent: 25 95% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Status colors */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Form elements */
+    --border: 220 15% 88%;
+    --input: 220 15% 96%;
+    --ring: 217 91% 60%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 70%));
+    --gradient-secondary: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 55%));
+    --gradient-accent: linear-gradient(135deg, hsl(25 95% 53%), hsl(45 93% 47%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 25% 98%));
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px 0 hsl(220 15% 15% / 0.1);
+    --shadow-md: 0 4px 6px -1px hsl(220 15% 15% / 0.1);
+    --shadow-lg: 0 10px 25px -3px hsl(220 15% 15% / 0.1);
+    --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.3);
+
+    /* Layout */
+    --radius: 0.75rem;
+    --sidebar-width: 280px;
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 15% 15%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 96%;
+    --sidebar-accent-foreground: 220 15% 15%;
+    --sidebar-border: 220 15% 88%;
+    --sidebar-ring: 217 91% 60%;
+  }
+
+  .dark {
+    /* Core backgrounds and text */
+    --background: 220 15% 8%;
+    --foreground: 220 15% 95%;
+
+    /* Cards and surfaces */
+    --card: 220 15% 10%;
+    --card-foreground: 220 15% 95%;
+    --card-hover: 220 15% 12%;
+
+    /* Interactive elements */
+    --popover: 220 15% 10%;
+    --popover-foreground: 220 15% 95%;
+
+    /* Primary brand colors */
+    --primary: 217 91% 65%;
+    --primary-foreground: 220 15% 8%;
+    --primary-hover: 217 91% 70%;
+
+    /* Secondary colors */
+    --secondary: 142 71% 50%;
+    --secondary-foreground: 220 15% 8%;
+    --secondary-hover: 142 71% 55%;
+
+    /* Muted elements */
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 65%;
+
+    /* Accent colors */
+    --accent: 25 95% 58%;
+    --accent-foreground: 220 15% 8%;
+
+    /* Status colors */
+    --success: 142 71% 50%;
+    --success-foreground: 220 15% 8%;
+    --warning: 45 93% 52%;
+    --warning-foreground: 220 15% 8%;
+    --destructive: 0 84% 65%;
+    --destructive-foreground: 220 15% 8%;
+
+    /* Form elements */
+    --border: 220 15% 20%;
+    --input: 220 15% 15%;
+    --ring: 217 91% 65%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 65%), hsl(217 91% 75%));
+    --gradient-secondary: linear-gradient(135deg, hsl(142 71% 50%), hsl(142 71% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(25 95% 58%), hsl(45 93% 57%));
+    --gradient-card: linear-gradient(145deg, hsl(220 15% 10%), hsl(220 15% 12%));
+
+    /* Shadows */
+    --shadow-sm: 0 1px 3px 0 hsl(220 15% 5% / 0.3);
+    --shadow-md: 0 4px 6px -1px hsl(220 15% 5% / 0.3);
+    --shadow-lg: 0 10px 25px -3px hsl(220 15% 5% / 0.3);
+    --shadow-glow: 0 0 40px hsl(217 91% 65% / 0.4);
+
+    /* Sidebar */
+    --sidebar-background: 220 15% 8%;
+    --sidebar-foreground: 220 15% 95%;
+    --sidebar-primary: 217 91% 65%;
+    --sidebar-primary-foreground: 220 15% 8%;
+    --sidebar-accent: 220 15% 15%;
+    --sidebar-accent-foreground: 220 15% 95%;
+    --sidebar-border: 220 15% 20%;
+    --sidebar-ring: 217 91% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Custom scrollbars */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground;
+  }
+}
+
+@layer components {
+
+  /* Gradient backgrounds */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .bg-gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+
+  .bg-gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+
+  /* Custom shadows */
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Smooth transitions */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+}
