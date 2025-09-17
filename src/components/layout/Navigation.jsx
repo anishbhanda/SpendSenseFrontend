@@ -1,13 +1,20 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { BarChart3, CreditCard, PieChart, Settings, User } from "lucide-react";
+import { Button } from "../ui/Button";
+import {
+    ArrowDownCircle,
+    BarChart3,
+    CreditCard,
+    PieChart,
+    Settings,
+    User,
+    Wallet,
+} from "lucide-react";
 
 const Navigation = () => {
     return (
         <nav className="bg-card border-b border-border shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
-                    {/* Logo */}
                     <Link to="/" className="flex items-center space-x-2">
                         <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
                             <CreditCard className="w-5 h-5 text-primary-foreground" />
@@ -17,7 +24,6 @@ const Navigation = () => {
                         </span>
                     </Link>
 
-                    {/* Navigation Links */}
                     <div className="hidden md:flex items-center space-x-8">
                         <Link
                             to="/dashboard"
@@ -27,12 +33,26 @@ const Navigation = () => {
                             <span>Dashboard</span>
                         </Link>
                         <Link
+                            to="/income"
+                            className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-smooth"
+                        >
+                            <Wallet className="w-4 h-4" />
+                            <span>Income</span>
+                        </Link>
+                        <Link
+                            to="/expense"
+                            className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-smooth"
+                        >
+                            <ArrowDownCircle className="w-4 h-4" />
+                            <span>Expense</span>
+                        </Link>
+                        {/* <Link
                             to="/transactions"
                             className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-smooth"
                         >
                             <CreditCard className="w-4 h-4" />
                             <span>Transactions</span>
-                        </Link>
+                        </Link> */}
                         <Link
                             to="/reports"
                             className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-smooth"
@@ -49,7 +69,6 @@ const Navigation = () => {
                         </Link>
                     </div>
 
-                    {/* Auth Buttons */}
                     <div className="flex items-center space-x-4">
                         <Link to="/login">
                             <Button variant="outline">Login</Button>

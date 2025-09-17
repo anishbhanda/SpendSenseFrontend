@@ -1,42 +1,47 @@
-// import {
-//     Card,
-//     CardContent,
-//     CardDescription,
-//     CardHeader,
-//     CardTitle,
-// } from "@/components/ui/card";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import {
-//     Dialog,
-//     DialogContent,
-//     DialogDescription,
-//     DialogHeader,
-//     DialogTitle,
-//     DialogTrigger,
-// } from "@/components/ui/dialog";
-// import {
-//     Form,
-//     FormControl,
-//     FormField,
-//     FormItem,
-//     FormLabel,
-//     FormMessage,
-// } from "@/components/ui/form";
-// import {
-//     Select,
-//     SelectContent,
-//     SelectItem,
-//     SelectTrigger,
-//     SelectValue,
-// } from "@/components/ui/select";
-// import {
-//     ChartContainer,
-//     ChartTooltip,
-//     ChartTooltipContent,
-// } from "@/components/ui/chart";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
+import { Label } from "../components/ui/Label";
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+} from "../components/ui/Tabs";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "../components/ui/Dialog";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "../components/ui/Form";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "../components/ui/Select";
+import {
+    ChartContainer,
+    ChartTooltip,
+    ChartTooltipContent,
+} from "../components/ui/Chart";
 import {
     Plus,
     TrendingDown,
@@ -57,7 +62,7 @@ import {
 } from "recharts";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-// import Navigation from "@/components/layout/Navigation";
+import Navigation from "../components/layout/Navigation";
 
 const Dashboard = () => {
     const [incomes, setIncomes] = useState([
@@ -109,7 +114,6 @@ const Dashboard = () => {
             date: "2024-01-11",
         },
     ]);
-
     const [isIncomeDialogOpen, setIsIncomeDialogOpen] = useState(false);
     const [isExpenseDialogOpen, setIsExpenseDialogOpen] = useState(false);
 
@@ -189,7 +193,6 @@ const Dashboard = () => {
         <div className="min-h-screen bg-background">
             <Navigation />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
                     <div>
                         <h1 className="text-3xl font-bold text-foreground">
