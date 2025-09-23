@@ -60,13 +60,13 @@ const Navigation = () => {
                             <PieChart className="w-4 h-4" />
                             <span>Reports</span>
                         </Link>
-                        <Link
+                        {/* <Link
                             to="/settings"
                             className="flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-smooth"
                         >
                             <Settings className="w-4 h-4" />
                             <span>Settings</span>
-                        </Link>
+                        </Link> */}
                     </div>
 
                     <div className="flex items-center space-x-4">

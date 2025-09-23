@@ -3,6 +3,7 @@ import Toaster from "./components/ui/Toaster";
 import { TooltipProvider } from "./components/ui/Tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./components/Auth/AuthContext";
 import Sonner from "./components/ui/Sonner";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
@@ -15,11 +16,13 @@ import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Income from "./pages/Income";
 import Expense from "./pages/Expense";
+import ProtectedRoute from "./components/Auth/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
     <>
+   <AuthProvider> 
         <QueryClientProvider client={queryClient}>
             <TooltipProvider>
                 <Toaster />
@@ -27,7 +30,7 @@ const App = () => (
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Index />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route
@@ -47,6 +50,7 @@ const App = () => (
                 </BrowserRouter>
             </TooltipProvider>
         </QueryClientProvider>
+        </AuthProvider>
     </>
 );
 

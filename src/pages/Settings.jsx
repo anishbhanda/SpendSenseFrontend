@@ -26,7 +26,6 @@ function Settings() {
             <Navigation />
 
             <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-foreground">
                         Settings
@@ -37,7 +36,6 @@ function Settings() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                    {/* Settings Navigation */}
                     <div className="lg:col-span-1">
                         <Card className="bg-gradient-card sticky top-8">
                             <CardContent className="p-4">
@@ -82,9 +80,7 @@ function Settings() {
                         </Card>
                     </div>
 
-                    {/* Settings Content */}
                     <div className="lg:col-span-3 space-y-6">
-                        {/* Profile Settings */}
                         <Card className="bg-gradient-card">
                             <CardHeader>
                                 <CardTitle className="flex items-center">
