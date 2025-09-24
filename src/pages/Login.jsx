@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Label } from "../components/ui/Label";
+import { AuthContext } from "../components/Auth/AuthContext";
 import {
     Card,
     CardContent,
@@ -19,33 +20,30 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+      const { checkAuthStatus } = useContext(AuthContext); // Access the checkAuthStatus function
+
     const handleSubmit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
 
-        try {
-            const response = await axios.post(
-                "http://localhost:5000/api/auth/login",
-                {
-                    email,
-                    password,
-                }
-            );
+      await checkAuthStatus(); 
 
-            console.log("Login successful:", response.data);
-            alert("Login successful!");
+      navigate("/dashboard");
 
-            navigate("/dashboard");
-        } catch (error) {
-            console.error(
-                "Login failed:",
-                error.response ? error.response.data : error.message
-            );
-            alert(
-                error.response?.data?.message ||
-                    "An unexpected error occurred during login."
-            );
-        }
-    };
+    } catch (error) {
+      console.error(
+        "Login failed:",
+        error.response ? error.response.data : error.message
+      );
+      alert(
+        error.response?.data?.message || "An unexpected error occurred."
+      );
+    }
+  };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10 flex items-center justify-center p-4">
