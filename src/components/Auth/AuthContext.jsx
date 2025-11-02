@@ -1,39 +1,44 @@
-import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { createContext, useState, useEffect } from "react";
+import axios from "axios";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+export const AuthProvider = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-    // Function you can call from anywhere
-    const checkAuthStatus = async () => {
-        try {
-            const response = await axios.get("http://localhost:5000/api/auth/check", {
-                withCredentials: true, // Important if using cookies
-            });
-            if (response.status === 200) {
-                setIsAuthenticated(true);
-            }
-        } catch (error) {
-            setIsAuthenticated(false);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  axios.defaults.withCredentials = true;
+  axios.defaults.baseURL = "http://localhost:5000"; 
 
-    useEffect(() => {
-        checkAuthStatus();
-    }, []);
+  const checkAuthStatus = async () => {
+    try {
+      const response = await axios.get("/api/auth/check");
+      if (response.status === 200) {
+        console.log("✅ Authenticated user:", response.data.user);
+        setIsAuthenticated(true);
+      }
+    } catch (error) {
+      console.log("❌ Not authenticated:", error.response?.data?.message);
+      setIsAuthenticated(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    return (
-        <AuthContext.Provider
-            value={{ isAuthenticated, isLoading, setIsAuthenticated, checkAuthStatus }}
-        >
-            {children}
-        </AuthContext.Provider>
-    );
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        isLoading,
+        setIsAuthenticated,
+        checkAuthStatus,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
-export { AuthContext, AuthProvider };

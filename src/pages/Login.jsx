@@ -20,30 +20,30 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-      const { checkAuthStatus } = useContext(AuthContext); // Access the checkAuthStatus function
+    const { checkAuthStatus } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+        e.preventDefault();
+        try {
+            await axios.post("http://localhost:5000/api/auth/login", {
+                email,
+                password,
+            });
 
-      await checkAuthStatus(); 
+            await checkAuthStatus();
 
-      navigate("/dashboard");
+            navigate("/dashboard");
 
-    } catch (error) {
-      console.error(
-        "Login failed:",
-        error.response ? error.response.data : error.message
-      );
-      alert(
-        error.response?.data?.message || "An unexpected error occurred."
-      );
-    }
-  };
+        } catch (error) {
+            console.error(
+                "Login failed:",
+                error.response ? error.response.data : error.message
+            );
+            alert(
+                error.response?.data?.message || "An unexpected error occurred."
+            );
+        }
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-primary/10 via-background to-secondary/10 flex items-center justify-center p-4">
