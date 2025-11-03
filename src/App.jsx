@@ -17,7 +17,6 @@ import NotFound from "./pages/NotFound";
 import Income from "./pages/Income";
 import Expense from "./pages/Expense";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
-import LoginForm from "./LoginForm";
 
 const queryClient = new QueryClient();
 
@@ -31,8 +30,7 @@ const App = () => (
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<Index />} />
-                        <Route path="/LoginForm" element={<LoginForm />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
                         <Route
@@ -45,7 +43,7 @@ const App = () => (
                         />
                         <Route path="/reports" element={<Reports />} />
                         <Route path="/settings" element={<Settings />} />
-                        <Route path="/income" element={<Income />} />
+                        <Route path="/income" element={<ProtectedRoute><Income /></ProtectedRoute>} />
                         <Route path="/expense" element={<Expense />} />
                         <Route path="*" element={<NotFound />} />
                     </Routes>

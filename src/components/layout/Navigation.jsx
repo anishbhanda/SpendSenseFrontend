@@ -70,14 +70,14 @@ const Navigation = () => {
                     </div>
 
                     <div className="flex items-center space-x-4">
-                        <Link to="/login">
-                            <Button variant="outline">Login</Button>
-                        </Link>
-                        <Link to="/signup">
+                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                            Log out
+                        </button>
+                        {/* <Link to="/signup">
                             <Button className="bg-gradient-primary hover:bg-primary-hover">
                                 Sign Up
                             </Button>
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
             </div>
