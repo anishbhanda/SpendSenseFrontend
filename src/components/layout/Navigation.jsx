@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/Button";
 import {
     ArrowDownCircle,
@@ -9,8 +9,24 @@ import {
     User,
     Wallet,
 } from "lucide-react";
+import axios from "axios";
 
 const Navigation = () => {
+    const navigate = useNavigate()
+    const handleLogout = async () => {
+        try {
+            await axios.post("http://localhost:5000/api/auth/logout", {}, {
+                withCredentials: true
+            })
+            console.log("Logout successful");
+            // setIsAuthenticated(false);
+            navigate("/login");
+        }
+        catch (error) {
+            console.error("Logout failed:", error);
+        }
+    }
+
     return (
         <nav className="bg-card border-b border-border shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -70,7 +86,7 @@ const Navigation = () => {
                     </div>
 
                     <div className="flex items-center space-x-4">
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                        <button onClick={() => handleLogout()} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
                             Log out
                         </button>
                         {/* <Link to="/signup">
