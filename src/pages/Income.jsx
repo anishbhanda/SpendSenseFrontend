@@ -1,9 +1,4 @@
-import {
-    Tabs,
-    TabsContent,
-    TabsList,
-    TabsTrigger,
-} from "../components/ui/Tabs";
+
 import {
     ChartContainer,
     ChartTooltip,
@@ -19,6 +14,8 @@ import {
     PieChart,
     Pie,
     Cell,
+    Legend,
+    Tooltip
 } from "recharts";
 import {
     Card,
@@ -55,12 +52,29 @@ import {
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Navigation from "../components/layout/Navigation";
+import axios from "axios";
 
 const Income = () => {
     const [incomes, setIncomes] = useState([
         { id: 1, source: "Salary", amount: 3200.0, date: "2024-01-15" },
         { id: 2, source: "Freelance", amount: 850.0, date: "2024-01-12" },
+        { id: 3, source: "Salary", amount: 100.0, date: "2024-01-20" },
+        { id: 4, source: "Anish", amount: 100.0, date: "2024-01-20" },
+        { id: 5, source: "Heladlo", amount: 1000.0, date: "2024-01-20" },
+        { id: 6, source: "Hellsdo", amount: 1000.0, date: "2024-01-20" },
+        { id: 7, source: "Headsdsllo", amount: 1000.0, date: "2024-01-20" },
+        { id: 8, source: "daaas", amount: 1000.0, date: "2024-03-20" },
+        { id: 9, source: "Hadello", amount: 1000.0, date: "2024-05-20" },
+        { id: 10, source: "Hedallo", amount: 1000.0, date: "2024-10-20" },
+        { id: 11, source: "Hedsdallo", amount: 123000.0, date: "2024-01-20" },
+        { id: 12, source: "Hedasllo", amount: 1000.0, date: "2024-11-20" },
     ]);
+
+    const [incomeData, setIncomeData] = useState({
+        source: "",
+        amount: "",
+        date: ""
+    })
 
     const [expenses, setExpenses] = useState([
         {
@@ -113,13 +127,98 @@ const Income = () => {
         defaultValues: { source: "", amount: "", date: "" },
     });
 
-    const expenseForm = useForm({
-        defaultValues: { description: "", category: "", amount: "", date: "" },
-    });
+    const aggregateIncomeData = (incomeList) => {
+        const aggregatedMap = incomeList.reduce((acc, income) => {
+            acc[income.source] = (acc[income.source] || 0) + income.amount;
+            return acc;
+        }, {});
 
-    const onIncomeSubmit = (data) => {
+        return Object.keys(aggregatedMap).map(source => ({
+            name: source,
+            value: aggregatedMap[source],
+        }));
+    };
+
+    const aggregatedChartData = aggregateIncomeData(incomes);
+    const COLORS = ['#00C49F', '#FFBB28', '#0088FE', '#FF8042']; // Green, Yellow, Blue, Orange
+    const CustomTooltip = ({ active, payload }) => {
+        if (active && payload && payload.length) {
+            const dataPoint = payload[0].payload;
+            // Calculate percentage using the *aggregated* data's total sum
+            const totalIncome = aggregatedChartData.reduce((sum, entry) => sum + entry.value, 0);
+            const percentage = ((dataPoint.value / totalIncome) * 100).toFixed(1);
+
+            // Format value as currency
+            const formattedValue = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                // Keep min fraction digits for cents
+            }).format(dataPoint.value);
+
+            return (
+                <div style={{
+                    backgroundColor: 'white',
+                    padding: '5px 10px',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px',
+                    fontSize: '14px'
+                }}>
+                    <p style={{ margin: 0, color: payload[0].color }}>
+                        {`${dataPoint.name}: ${formattedValue}`}
+                    </p>
+                    <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>
+                        {`(${percentage}%)`}
+                    </p>
+                </div>
+            );
+        }
+        return null;
+    };
+
+    const IncomeBreakdownChart = () => {
+        return (
+            <div style={{ height: 350, width: '100%', padding: '20px', backgroundColor: 'transparent', borderRadius: '8px' }}>
+                <h3 className="text-2xl font-semibold leading-none tracking-tight">Income Breakdown by Source</h3>
+                <ResponsiveContainer width="100%" height="90%">
+                    <PieChart>
+                        <Pie
+                            data={aggregatedChartData}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={60}
+                            outerRadius={90}
+                            paddingAngle={3}
+                            labelLine={false}
+                            label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                        >
+                            {aggregatedChartData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip content={<CustomTooltip />} />
+                        <Legend
+                            layout="vertical"
+                            verticalAlign="middle"
+                            align="right"
+                            wrapperStyle={{ right: 0, top: '10%' }}
+                        />
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
+        );
+    };
+
+    const onIncomeSubmit = async (data) => {
+        console.log(data);
+        try {
+            await axios.post("http://localhost:5000/api/income", { source: data.source, amount: data.amount, date: data.date })
+
+        } catch (error) {
+
+        }
         const newIncome = {
-            id: incomes.length + 1,
             source: data.source,
             amount: parseFloat(data.amount),
             date: data.date,
@@ -129,18 +228,6 @@ const Income = () => {
         setIsIncomeDialogOpen(false);
     };
 
-    const onExpenseSubmit = (data) => {
-        const newExpense = {
-            id: expenses.length + 1,
-            description: data.description,
-            category: data.category,
-            amount: parseFloat(data.amount),
-            date: data.date,
-        };
-        setExpenses([...expenses, newExpense]);
-        expenseForm.reset();
-        setIsExpenseDialogOpen(false);
-    };
 
     const totalIncome = incomes.reduce((sum, income) => sum + income.amount, 0);
     const totalExpense = expenses.reduce(
@@ -170,13 +257,67 @@ const Income = () => {
         <div className="min-h-screen bg-background">
             <Navigation />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <Card className="lg:col-span-2 bg-gradient-card">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <Card className="bg-gradient-card hover:shadow-lg transition-smooth">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                Total Income Year To Date
+                            </CardTitle>
+                            <DollarSign className="h-4 w-4 text-primary" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold text-foreground">
+                                ${totalBalance.toFixed(2)}
+                            </div>
+                            <p className="text-xs text-success flex items-center mt-1">
+                                <TrendingUp className="w-3 h-3 mr-1" />
+                                +12.5% from last year
+                            </p>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="bg-gradient-card hover:shadow-lg transition-smooth">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                Total Expenses
+                            </CardTitle>
+                            <TrendingDown className="h-4 w-4 text-destructive" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold text-foreground">
+                                ${totalExpense.toFixed(2)}
+                            </div>
+                            <p className="text-xs text-destructive flex items-center mt-1">
+                                <TrendingDown className="w-3 h-3 mr-1" />
+                                -3.1% from last month
+                            </p>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="bg-gradient-card hover:shadow-lg transition-smooth">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">
+                                This Month
+                            </CardTitle>
+                            <Calendar className="h-4 w-4 text-accent" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold text-foreground">
+                                ${(totalIncome - totalExpense).toFixed(2)}
+                            </div>
+                            <p className="text-xs text-warning flex items-center mt-1">
+                                15 days remaining
+                            </p>
+                        </CardContent>
+                    </Card>
+                </div>
+                <div className="grid grid-cols-1 gap-6 mb-8">
+                    <Card className="bg-gradient-card">
                         <CardHeader className="flex flex-row items-center justify-between">
                             <div>
-                                <CardTitle>Income Overview</CardTitle>
+                                <CardTitle>Recent Income</CardTitle>
                                 <CardDescription>
-                                    Your income pattern over time
+                                    Latest income entries
                                 </CardDescription>
                             </div>
                             <Dialog
@@ -274,6 +415,46 @@ const Income = () => {
                             </Dialog>
                         </CardHeader>
                         <CardContent>
+                            <div className="space-y-4">
+                                {incomes.slice(-5).map((income) => (
+                                    <div
+                                        key={income.id}
+                                        className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
+                                    >
+                                        <div>
+                                            <p className="font-medium text-sm">
+                                                {income.source}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {income.date}
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="font-semibold text-sm text-success">
+                                                +$
+                                                {income.amount.toFixed(2)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <Card className="lg:col-span-2 bg-gradient-card">
+                        <CardHeader className="flex flex-row items-center justify-between">
+                            <div>
+                                <CardTitle>Income Overview</CardTitle>
+                                <CardDescription>
+                                    Your income pattern over time
+                                </CardDescription>
+                            </div>
+
+                        </CardHeader>
+
+
+                        <CardContent>
                             <ChartContainer
                                 config={chartConfig}
                                 className="h-80"
@@ -304,39 +485,8 @@ const Income = () => {
                         </CardContent>
                     </Card>
 
-                    {/* Income List */}
-                    <Card className="bg-gradient-card">
-                        <CardHeader>
-                            <CardTitle>Recent Income</CardTitle>
-                            <CardDescription>
-                                Latest income entries
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="space-y-4">
-                                {incomes.slice(-5).map((income) => (
-                                    <div
-                                        key={income.id}
-                                        className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
-                                    >
-                                        <div>
-                                            <p className="font-medium text-sm">
-                                                {income.source}
-                                            </p>
-                                            <p className="text-xs text-muted-foreground">
-                                                {income.date}
-                                            </p>
-                                        </div>
-                                        <div className="text-right">
-                                            <p className="font-semibold text-sm text-success">
-                                                +$
-                                                {income.amount.toFixed(2)}
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </CardContent>
+                    <Card className="lg:col-span-2 bg-gradient-card">
+                        <IncomeBreakdownChart />
                     </Card>
                 </div>
             </main>
